@@ -41,6 +41,13 @@ async function run() {
       res.send(user);
     });
 
+    app.post("/users", async(req, res) => {
+      const newUser = req.body;
+      const result = await userCollection.insertOne(newUser)
+      console.log("user to be inserted", newUser);
+      res.send(result)
+    })
+
     app.delete("/users/:id", async (req, res) => {
       const id = req.params.id;
       const query = {
@@ -48,7 +55,6 @@ async function run() {
       };
       const result = await userCollection.deleteOne(query);
       res.send(result);
-
     });
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
